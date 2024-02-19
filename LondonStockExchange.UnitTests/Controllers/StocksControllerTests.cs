@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace LondonStockExchange.UnitTests
+namespace LondonStockExchange.UnitTests.Controllers
 {
     /// <summary>
     /// Contains unit tests for the StocksController class, ensuring that all controller actions perform as expected under various scenarios.

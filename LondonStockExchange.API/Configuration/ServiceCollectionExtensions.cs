@@ -29,6 +29,7 @@ namespace LondonStockExchange.API.Configuration
             // Register service interfaces to their corresponding implementations.
             services.AddScoped<ITradeService, TradeService>();
             services.AddScoped<IStockService, StockService>();
+            services.AddScoped<ITradeNotificationService, TradeNotificationService>();
 
             // Automatically registers all AutoMapper profiles in the current assembly.
             services.AddAutoMapper(Assembly.GetExecutingAssembly());

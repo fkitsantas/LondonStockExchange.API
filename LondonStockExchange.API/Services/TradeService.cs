@@ -17,7 +17,7 @@ namespace LondonStockExchange.API.Services
     {
         private readonly IStockRepository _stockRepository;
         private readonly ITransactionRepository _transactionRepository;
-        private readonly IHubContext<TradeNotificationHub> _hubContext;
+        private readonly ITradeNotificationService _tradeNotificationService;
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -25,13 +25,13 @@ namespace LondonStockExchange.API.Services
         /// </summary>
         /// <param name="stockRepository">The repository for stock-related operations.</param>
         /// <param name="transactionRepository">The repository for transaction-related operations.</param>
-        /// <param name="hubContext">The SignalR hub context for real-time notifications.</param>
+        /// <param name="tradeNotificationService">The SignalR hub context for real-time notifications.</param>
         /// <param name="mapper">The AutoMapper instance for object mapping.</param>
-        public TradeService(IStockRepository stockRepository, ITransactionRepository transactionRepository, IHubContext<TradeNotificationHub> hubContext, IMapper mapper)
+        public TradeService(IStockRepository stockRepository, ITransactionRepository transactionRepository, ITradeNotificationService tradeNotificationService, IMapper mapper)
         {
             _stockRepository = stockRepository;
             _transactionRepository = transactionRepository;
-            _hubContext = hubContext;
+            _tradeNotificationService = tradeNotificationService;
             _mapper = mapper;
         }
 
@@ -56,7 +56,7 @@ namespace LondonStockExchange.API.Services
             await _transactionRepository.AddAsync(transaction);
 
             // Notify all connected clients about the new trade
-            await _hubContext.Clients.All.SendAsync("ReceiveTradeInfo", tradeDto.TickerSymbol, tradeDto.Price, tradeDto.Shares, tradeDto.BrokerId);
+            await _tradeNotificationService.NotifyAllClientsAsync(tradeDto.TickerSymbol, tradeDto.Price, tradeDto.Shares, tradeDto.BrokerId);
 
             return new TradeResultDTO { Success = true, UpdatedStock = _mapper.Map<StockDTO>(stock) };
         }
