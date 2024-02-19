@@ -44,7 +44,7 @@ Processes a new trade in the system, updating stock prices and notifying subscri
 
 - **Response**: A JSON object representing the result of the trade operation, including success status and any messages.
 
-### 5. Responses
+## Responses
 The API uses standard HTTP response codes to indicate the success or failure of requests:
 
 - `200 OK`: The request was successful.
