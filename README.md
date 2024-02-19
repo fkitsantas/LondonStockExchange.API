@@ -3,6 +3,20 @@
 
 This documentation outlines the available RESTful endpoints provided by the London Stock Exchange API. This API is designed to facilitate real-time trade notifications and querying of stock information.
 
+## Table of Contents
+1. [Headers](#headers)
+2. [Endpoints](#endpoints)
+   1. [Get All Stocks](#1-get-all-stocks)
+   2. [Get a Specific Stock by Ticker Symbol](#2-get-a-specific-stock-by-ticker-symbol)
+   3. [Get Stocks by a Range of Ticker Symbols](#3-get-stocks-by-a-range-of-ticker-symbols)
+   4. [Process a Trade](#4-process-a-trade)
+3. [Responses](#responses)
+4. [Enhancements](#enhancements)
+   1. [Is this system scalable?](#is-this-system-scalable)
+   2. [How can it cope with high traffic?](#how-can-it-cope-with-high-traffic)
+   3. [Identifying Bottlenecks and Suggested Improvements](#can-you-identify-bottlenecks-and-suggest-an-improved-design-and-architecture)
+   4. [Different Approach](#different-approach-obtain-the-same-goal)
+
 ## Headers
 All requests should include the `Accept: application/json` header. For POST requests, include `Content-Type: application/json`.
 
@@ -75,5 +89,5 @@ The API uses standard HTTP response codes to indicate the success or failure of 
 - Load Balancing: Deploying the application behind a load balancer can distribute incoming traffic across multiple instances, improving performance and reliability.
 - Containerization: Using containerization (e.g., Docker) and orchestration (e.g., Kubernetes) can simplify deployment and scaling of the application.
 
-### Feel free to suggest a complete different approach, but be sure you can obtain the same goal.
+### Different approach, obtain the same goal.
 - If I had more time to work on this project, in order to achieve the same goal but with greater scalability and to handle high traffic more effectively, I would approach this project by still leveraging ASP.NET Core and .NET 8, but opting for MongoDB instead of MSSQL. In addition to that, integrating Redis as a caching layer would significantly decrease response times and database load by storing frequently accessed data in fast, in-memory datasets. Finally, implementing RabbitMQ for message queuing would enable asynchronous processing and decouple the services, allowing for a more robust and scalable architecture. This combination would ensure that the application remained responsive and efficient under heavy loads, providing a solid foundation for future growth and scalability.
