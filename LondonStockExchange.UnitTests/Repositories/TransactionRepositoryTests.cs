@@ -9,8 +9,15 @@ using System.Threading.Tasks;
 
 namespace LondonStockExchange.UnitTests.Repositories
 {
+    /// <summary>
+    /// Contains unit tests for the TransactionRepository class to ensure its functionality for managing transaction entities.
+    /// </summary>
     public class TransactionRepositoryTests
     {
+        /// <summary>
+        /// Creates a new in-memory database context for testing, ensuring a fresh database for each test run.
+        /// </summary>
+        /// <returns>A new instance of ApplicationDbContext configured for in-memory use.</returns>
         private ApplicationDbContext GetDatabaseContext()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -20,7 +27,7 @@ namespace LondonStockExchange.UnitTests.Repositories
             var databaseContext = new ApplicationDbContext(options);
             databaseContext.Database.EnsureCreated();
 
-            // Prepopulate the database
+            // Prepopulate the database with necessary data for testing.
             if (!databaseContext.Stocks.Any())
             {
                 databaseContext.Stocks.Add(new Stock { TickerSymbol = "AAPL", CurrentPrice = 150M });
@@ -38,6 +45,9 @@ namespace LondonStockExchange.UnitTests.Repositories
             return databaseContext;
         }
 
+        /// <summary>
+        /// Verifies that AddAsync correctly adds a new transaction to the database.
+        /// </summary>
         [Fact]
         public async Task AddAsync_AddsTransactionSuccessfully()
         {
@@ -62,6 +72,9 @@ namespace LondonStockExchange.UnitTests.Repositories
             }
         }
 
+        /// <summary>
+        /// Tests that GetAllByBrokerIdAsync retrieves all transactions associated with a specific broker.
+        /// </summary>
         [Fact]
         public async Task GetAllByBrokerIdAsync_RetrievesTransactionsForBroker()
         {
@@ -89,6 +102,9 @@ namespace LondonStockExchange.UnitTests.Repositories
             }
         }
 
+        /// <summary>
+        /// Ensures GetAllByStockIdAsync correctly fetches transactions related to a specified stock.
+        /// </summary>
         [Fact]
         public async Task GetAllByStockIdAsync_RetrievesTransactionsForStock()
         {
@@ -115,6 +131,9 @@ namespace LondonStockExchange.UnitTests.Repositories
             }
         }
 
+        /// <summary>
+        /// Tests GetRecentTransactionsAsync to ensure it returns transactions ordered by timestamp in descending order.
+        /// </summary>
         [Fact]
         public async Task GetRecentTransactionsAsync_RetrievesRecentTransactions()
         {

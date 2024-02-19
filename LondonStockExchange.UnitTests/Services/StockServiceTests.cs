@@ -10,6 +10,9 @@ using LondonStockExchange.API.Services;
 
 namespace LondonStockExchange.UnitTests.Services
 {
+    /// <summary>
+    /// Unit tests for <see cref="StockService"/> to ensure it correctly interacts with repositories and mapper to handle stock-related operations.
+    /// </summary>
     public class StockServiceTests
     {
         private readonly Mock<IStockRepository> _mockStockRepository;
@@ -23,6 +26,9 @@ namespace LondonStockExchange.UnitTests.Services
             _stockService = new StockService(_mockStockRepository.Object, _mockMapper.Object);
         }
 
+        /// <summary>
+        /// Verifies that <see cref="StockService.GetAllStocksAsync"/> successfully retrieves and maps all stocks.
+        /// </summary>
         [Fact]
         public async Task GetAllStocksAsync_ReturnsAllStocks()
         {
@@ -32,7 +38,7 @@ namespace LondonStockExchange.UnitTests.Services
                 new Stock { StockID = 1, TickerSymbol = "AAPL", CurrentPrice = 150M },
                 new Stock { StockID = 2, TickerSymbol = "MSFT", CurrentPrice = 200M }
             };
-                    var stockDTOs = new List<StockDTO>
+            var stockDTOs = new List<StockDTO>
             {
                 new StockDTO { TickerSymbol = "AAPL", CurrentPrice = 150M },
                 new StockDTO { TickerSymbol = "MSFT", CurrentPrice = 200M }
@@ -51,6 +57,9 @@ namespace LondonStockExchange.UnitTests.Services
             _mockMapper.Verify(mapper => mapper.Map<IEnumerable<StockDTO>>(stocks), Times.Once);
         }
 
+        /// <summary>
+        /// Tests that <see cref="StockService.GetStockByTickerSymbolAsync(string)"/> returns the correct stock DTO when the stock exists.
+        /// </summary>
         [Fact]
         public async Task GetStockByTickerSymbolAsync_ReturnsStock_WhenExists()
         {
@@ -72,6 +81,9 @@ namespace LondonStockExchange.UnitTests.Services
             _mockMapper.Verify(mapper => mapper.Map<StockDTO>(stock), Times.Once);
         }
 
+        /// <summary>
+        /// Ensures that <see cref="StockService.UpdateStockPriceAsync(string, decimal)"/> correctly updates a stock's price when it exists.
+        /// </summary>
         [Fact]
         public async Task UpdateStockPriceAsync_UpdatesPrice_WhenStockExists()
         {

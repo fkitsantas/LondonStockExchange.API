@@ -9,8 +9,15 @@ using System.Collections.Generic;
 
 namespace LondonStockExchange.UnitTests.Repositories
 {
+    /// <summary>
+    /// Contains unit tests for the StockRepository class to verify its functionality for managing stock entities.
+    /// </summary>
     public class StockRepositoryTests
     {
+        /// <summary>
+        /// Creates and initializes an in-memory database context for testing.
+        /// </summary>
+        /// <returns>A new instance of ApplicationDbContext configured for in-memory use.</returns>
         private ApplicationDbContext GetDatabaseContext()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -24,6 +31,9 @@ namespace LondonStockExchange.UnitTests.Repositories
             return databaseContext;
         }
 
+        /// <summary>
+        /// Verifies that GetAllAsync correctly retrieves all stocks from the database.
+        /// </summary>
         [Fact]
         public async Task GetAllAsync_ReturnsAllStocks()
         {
@@ -43,6 +53,9 @@ namespace LondonStockExchange.UnitTests.Repositories
             }
         }
 
+        /// <summary>
+        /// Tests that GetByTickerSymbolAsync fetches the correct stock based on its ticker symbol.
+        /// </summary>
         [Fact]
         public async Task GetByTickerSymbolAsync_ReturnsCorrectStock()
         {
@@ -64,6 +77,9 @@ namespace LondonStockExchange.UnitTests.Repositories
             }
         }
 
+        /// <summary>
+        /// Ensures that UpdateAsync successfully updates stock information in the database.
+        /// </summary>
         [Fact]
         public async Task UpdateAsync_UpdatesStockCorrectly()
         {
@@ -86,6 +102,9 @@ namespace LondonStockExchange.UnitTests.Repositories
             }
         }
 
+        /// <summary>
+        /// Tests that GetByTickerSymbolsAsync returns the correct subset of stocks based on an array of ticker symbols.
+        /// </summary>
         [Fact]
         public async Task GetByTickerSymbolsAsync_ReturnsCorrectStocks()
         {

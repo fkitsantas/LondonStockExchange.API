@@ -5,11 +5,13 @@ using Microsoft.Extensions.Logging;
 using LondonStockExchange.API.DTOs;
 using LondonStockExchange.API.Interfaces.Services;
 using LondonStockExchange.API.Controllers;
-using System;
 using System.Threading.Tasks;
 
 namespace LondonStockExchange.UnitTests.Controllers
 {
+    /// <summary>
+    /// Contains unit tests for the TradesController class, ensuring all endpoints behave correctly under various scenarios.
+    /// </summary>
     public class TradesControllerTests
     {
         private readonly Mock<ITradeService> _mockTradeService;
@@ -23,6 +25,9 @@ namespace LondonStockExchange.UnitTests.Controllers
             _controller = new TradesController(_mockTradeService.Object, _mockLogger.Object);
         }
 
+        /// <summary>
+        /// Tests that ProcessTrade action correctly processes a valid trade and returns an Ok response.
+        /// </summary>
         [Fact]
         public async Task ProcessTrade_ValidTrade_ReturnsOk()
         {
@@ -42,13 +47,14 @@ namespace LondonStockExchange.UnitTests.Controllers
             Assert.Equal("Trade processed successfully", returnValue.Message);
         }
 
+        /// <summary>
+        /// Tests that ProcessTrade action returns a BadRequest response when provided with an invalid trade.
+        /// </summary>
         [Fact]
         public async Task ProcessTrade_InvalidTrade_ReturnsBadRequest()
         {
             // Arrange
-            var tradeDto = new TradeDTO(); // Assuming this is invalid due to missing required fields
-
-            // No need to setup the mock since the controller should return before calling the service
+            var tradeDto = new TradeDTO(); // Invalid trade due to missing required fields
 
             // Act
             var result = await _controller.ProcessTrade(tradeDto);
@@ -57,6 +63,9 @@ namespace LondonStockExchange.UnitTests.Controllers
             Assert.IsType<BadRequestObjectResult>(result.Result);
         }
 
+        /// <summary>
+        /// Tests that ProcessTrade action returns an InternalServerError response when the service throws an exception.
+        /// </summary>
         [Fact]
         public async Task ProcessTrade_ServiceThrowsException_ReturnsInternalServerError()
         {
