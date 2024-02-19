@@ -1,0 +1,31 @@
+@LondonStockExchange.API_HostAddress = http://localhost:5000
+
+### Get all stocks
+GET {{LondonStockExchange.API_HostAddress}}/api/stocks
+Accept: application/json
+
+###
+
+### Get a specific stock by ticker symbol
+GET {{LondonStockExchange.API_HostAddress}}/api/stocks/AAPL
+Accept: application/json
+
+###
+
+### Get stocks by a range of ticker symbols
+GET {{LondonStockExchange.API_HostAddress}}/api/stocks/range?tickerSymbols=AAPL,GOOGL
+Accept: application/json
+
+###
+
+### Process a trade
+POST {{LondonStockExchange.API_HostAddress}}/api/trades
+Content-Type: application/json
+Accept: application/json
+
+{
+  "tickerSymbol": "AAPL",
+  "price": 150.00,
+  "shares": 10,
+  "brokerId": 1
+}
