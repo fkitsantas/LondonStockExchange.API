@@ -1,0 +1,33 @@
+name: .NET Build and Test Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies for API project
+      run: dotnet restore LondonStockExchange.API/LondonStockExchange.API.csproj
+
+    - name: Restore dependencies for UnitTests project
+      run: dotnet restore LondonStockExchange.UnitTests/LondonStockExchange.UnitTests.csproj
+
+    - name: Build API project
+      run: dotnet build LondonStockExchange.API/LondonStockExchange.API.csproj --no-restore
+
+    - name: Build UnitTests project
+      run: dotnet build LondonStockExchange.UnitTests/LondonStockExchange.UnitTests.csproj --no-restore
+
+    - name: Run tests
+      run: dotnet test LondonStockExchange.UnitTests/LondonStockExchange.UnitTests.csproj --no-build --verbosity normal
