@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace LondonStockExchange.API.Controllers
 {
+    /// <summary>
+    /// Controller responsible for handling trade-related actions.
+    /// This includes processing new trades and managing trade data.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class TradesController : ControllerBase
@@ -13,13 +17,27 @@ namespace LondonStockExchange.API.Controllers
         private readonly ITradeService _tradeService;
         private readonly ILogger<TradesController> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TradesController"/> class.
+        /// </summary>
+        /// <param name="tradeService">The service handling trade operations.</param>
+        /// <param name="logger">The logger for capturing log information.</param>
         public TradesController(ITradeService tradeService, ILogger<TradesController> logger)
         {
-            _tradeService = tradeService;
-            _logger = logger;
+            _tradeService = tradeService ?? throw new ArgumentNullException(nameof(tradeService), "Trade service cannot be null.");
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger), "Logger cannot be null.");
         }
 
-        // POST: api/trades
+        /// <summary>
+        /// Processes a new trade.
+        /// Validates the input trade data and, if valid, proceeds to process the trade.
+        /// </summary>
+        /// <param name="tradeDto">The trade data to process.</param>
+        /// <returns>An <see cref="ActionResult"/> containing the result of the trade operation.</returns>
+        /// <remarks>
+        /// The method ensures the trade data is not null and the share count is greater than zero before processing.
+        /// It handles any exceptions during the trade processing by logging the error and returning an appropriate response.
+        /// </remarks>
         [HttpPost]
         public async Task<ActionResult<TradeResultDTO>> ProcessTrade([FromBody] TradeDTO tradeDto)
         {

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace LondonStockExchange.API.Controllers
 {
+    /// <summary>
+    /// Handles HTTP requests related to stock information, providing endpoints for retrieving stock data.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class StocksController : ControllerBase
@@ -14,13 +17,21 @@ namespace LondonStockExchange.API.Controllers
         private readonly IStockService _stockService;
         private readonly ILogger<StocksController> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StocksController"/> class.
+        /// </summary>
+        /// <param name="stockService">The service for accessing stock data.</param>
+        /// <param name="logger">The logger for logging information and errors.</param>
         public StocksController(IStockService stockService, ILogger<StocksController> logger)
         {
-            _stockService = stockService;
-            _logger = logger;
+            _stockService = stockService ?? throw new ArgumentNullException(nameof(stockService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        // GET: api/stocks
+        /// <summary>
+        /// Retrieves all stocks available in the system.
+        /// </summary>
+        /// <returns>A collection of <see cref="StockDTO"/> instances.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StockDTO>>> GetAllStocks()
         {
@@ -36,7 +47,11 @@ namespace LondonStockExchange.API.Controllers
             }
         }
 
-        // GET: api/stocks/{tickerSymbol}
+        /// <summary>
+        /// Retrieves a specific stock by its ticker symbol.
+        /// </summary>
+        /// <param name="tickerSymbol">The ticker symbol of the stock to retrieve.</param>
+        /// <returns>A <see cref="StockDTO"/> instance if found; otherwise, a NotFound result.</returns>
         [HttpGet("{tickerSymbol}")]
         public async Task<ActionResult<StockDTO>> GetStockByTickerSymbol(string tickerSymbol)
         {
@@ -63,7 +78,11 @@ namespace LondonStockExchange.API.Controllers
             }
         }
 
-        // GET: api/stocks/range?tickerSymbols=ABC,XYZ
+        /// <summary>
+        /// Retrieves stocks for a given set of ticker symbols.
+        /// </summary>
+        /// <param name="tickerSymbols">The collection of ticker symbols to retrieve stocks for.</param>
+        /// <returns>A collection of <see cref="StockDTO"/> instances.</returns>
         [HttpGet("range")]
         public async Task<ActionResult<IEnumerable<StockDTO>>> GetStocksByTickerSymbols([FromQuery] IEnumerable<string> tickerSymbols)
         {

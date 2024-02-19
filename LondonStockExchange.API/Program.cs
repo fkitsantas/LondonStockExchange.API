@@ -22,7 +22,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Only seed the database in development environment
+// Seed the database with initial data in development environment
 if (app.Environment.IsDevelopment())
 {
     using (var scope = app.Services.CreateScope())
@@ -52,8 +52,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
-// Endpoints
+// Map controller actions to endpoints
 app.MapControllers();
+// Map SignalR hubs to endpoints
 app.MapHub<TradeNotificationHub>("/tradenotificationhub");
 
 app.Run();
