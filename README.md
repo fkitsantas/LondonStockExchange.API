@@ -4,21 +4,17 @@
 This documentation outlines the available RESTful endpoints provided by the London Stock Exchange API. This API is designed to facilitate real-time trade notifications and querying of stock information.
 
 ## Table of Contents
-1. [Headers](#headers)
-2. [Endpoints](#endpoints)
+1. [Endpoints](#endpoints)
    1. [Get All Stocks](#1-get-all-stocks)
    2. [Get a Specific Stock by Ticker Symbol](#2-get-a-specific-stock-by-ticker-symbol)
    3. [Get Stocks by a Range of Ticker Symbols](#3-get-stocks-by-a-range-of-ticker-symbols)
    4. [Process a Trade](#4-process-a-trade)
-3. [Responses](#responses)
-4. [Enhancements](#enhancements)
+2. [Responses](#responses)
+3. [Enhancements](#enhancements)
    1. [Is this system scalable?](#is-this-system-scalable)
    2. [How can it cope with high traffic?](#how-can-it-cope-with-high-traffic)
    3. [Identifying Bottlenecks and Suggested Improvements](#can-you-identify-bottlenecks-and-suggest-an-improved-design-and-architecture)
    4. [Different Approach](#different-approach-obtain-the-same-goal)
-
-## Headers
-All requests should include the `Accept: application/json` header. For POST requests, include `Content-Type: application/json`.
 
 ## Endpoints
 
