@@ -1,5 +1,5 @@
 # London Stock Exchange API Endpoints Documentation
-
+[![.NET Build and Test Workflow](https://github.com/fkitsantas/LondonStockExchange.API/actions/workflows/dotnet.yml/badge.svg)](https://github.com/fkitsantas/LondonStockExchange.API/actions/workflows/dotnet.yml)
 This documentation outlines the available RESTful endpoints provided by the London Stock Exchange API. Each endpoint is designed to facilitate real-time trade notifications and querying of stock information.
 
 ## Headers
