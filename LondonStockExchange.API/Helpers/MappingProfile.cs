@@ -4,8 +4,17 @@ using LondonStockExchange.API.Models;
 
 namespace LondonStockExchange.API.Helpers
 {
+    /// <summary>
+    /// Configures mapping profiles for AutoMapper to convert between entity models and data transfer objects (DTOs).
+    /// This class defines the mappings required to seamlessly convert data to and from models and DTOs,
+    /// facilitating data encapsulation and abstraction for API responses or requests.
+    /// </summary>
     public class MappingProfile : Profile
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MappingProfile"/> class.
+        /// Here, all entity-to-DTO and DTO-to-entity mappings are configured.
+        /// </summary>
         public MappingProfile()
         {
             // Model to DTO mappings

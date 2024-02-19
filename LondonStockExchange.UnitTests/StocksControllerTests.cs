@@ -4,25 +4,33 @@ using LondonStockExchange.API.Interfaces.Services;
 using Moq;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace LondonStockExchange.UnitTests
 {
+    /// <summary>
+    /// Contains unit tests for the StocksController class, ensuring that all controller actions perform as expected under various scenarios.
+    /// </summary>
     public class StocksControllerTests
     {
+        /// <summary>
+        /// Tests that GetAllStocks action returns all stocks correctly.
+        /// </summary>
         [Fact]
         public async Task GetAllStocks_ReturnsExpectedStocks()
         {
-            // Arrange
+            // Arrange: Set up the environment for the test, including mocking dependencies.
             var mockService = new Mock<IStockService>();
             var mockLogger = new Mock<ILogger<StocksController>>();
             mockService.Setup(service => service.GetAllStocksAsync())
                        .ReturnsAsync(new List<StockDTO> { new StockDTO { TickerSymbol = "AAPL", CurrentPrice = 150 } });
             var controller = new StocksController(mockService.Object, mockLogger.Object);
 
-            // Act
+            // Act: Perform the action being tested.
             var result = await controller.GetAllStocks();
 
-            // Assert
+            // Assert: Verify the action performed as expected.
             var okResult = Assert.IsType<OkObjectResult>(result.Result);
             var returnValue = Assert.IsType<List<StockDTO>>(okResult.Value);
             Assert.Single(returnValue);
@@ -30,6 +38,9 @@ namespace LondonStockExchange.UnitTests
             Assert.Equal(150, returnValue[0].CurrentPrice);
         }
 
+        /// <summary>
+        /// Tests that GetStockByTickerSymbol returns a single stock when the stock exists.
+        /// </summary>
         [Fact]
         public async Task GetStockByTickerSymbol_ReturnsStock_WhenStockExists()
         {
@@ -52,6 +63,9 @@ namespace LondonStockExchange.UnitTests
             Assert.Equal(expectedStock.CurrentPrice, stock.CurrentPrice);
         }
 
+        /// <summary>
+        /// Tests that GetStockByTickerSymbol returns NotFound when the stock does not exist.
+        /// </summary>
         [Fact]
         public async Task GetStockByTickerSymbol_ReturnsNotFound_WhenStockDoesNotExist()
         {
@@ -70,6 +84,9 @@ namespace LondonStockExchange.UnitTests
             Assert.IsType<NotFoundResult>(result.Result);
         }
 
+        /// <summary>
+        /// Tests that GetStocksByTickerSymbols returns the expected stocks when called with valid symbols.
+        /// </summary>
         [Fact]
         public async Task GetStocksByTickerSymbols_ReturnsStocks_WhenCalledWithValidSymbols()
         {
@@ -78,10 +95,10 @@ namespace LondonStockExchange.UnitTests
             var mockLogger = new Mock<ILogger<StocksController>>();
             var tickerSymbols = new List<string> { "AAPL", "MSFT" };
             var expectedStocks = new List<StockDTO>
-        {
-            new StockDTO { TickerSymbol = "AAPL", CurrentPrice = 150 },
-            new StockDTO { TickerSymbol = "MSFT", CurrentPrice = 290 }
-        };
+            {
+                new StockDTO { TickerSymbol = "AAPL", CurrentPrice = 150 },
+                new StockDTO { TickerSymbol = "MSFT", CurrentPrice = 290 }
+            };
 
             mockService.Setup(s => s.GetStocksByTickerSymbolsAsync(tickerSymbols)).ReturnsAsync(expectedStocks);
             var controller = new StocksController(mockService.Object, mockLogger.Object);
@@ -97,6 +114,9 @@ namespace LondonStockExchange.UnitTests
             Assert.Equal(tickerSymbols[1], stocks[1].TickerSymbol);
         }
 
+        /// <summary>
+        /// Tests that GetAllStocks returns a server error response when an exception occurs.
+        /// </summary>
         [Fact]
         public async Task GetAllStocks_ReturnsServerError_OnException()
         {
